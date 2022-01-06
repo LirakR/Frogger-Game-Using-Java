@@ -25,46 +25,51 @@ public class Logic {
 	}
 	
 	
-	public void collisionWithCars(Frog f,Obstacle o) {
-
+	public boolean collisionWithCars(Frog f,Obstacle o) {
+boolean rez=false;
 		if(f.getY()==o.getY()) {
 
 			if(f.getX()+f.getWidth()>o.getX()&&f.getX()<o.getX()+o.getWidth()) {
 
-				f.destroy();
-
+				//f.destroy();
+rez= true;
 			}			
-		}
+		}return rez;
 	}
 
-	public void ofScreen(Frog f) {
-
+	public boolean ofScreen(Frog f) {
+boolean rez=false;
 		if(f.getX()+48>672) {
 
 			
-			if(f.getY()<649&&f.getY()>600) {
-				f.setX(628);
-			f.gif.setBounds(f.getX()-48, (int)f.gif.getLocation().getY(), f.gif.getWidth(),f.gif.getHeight());
+			if(f.getY()<649&&f.getY()>300) {
+				f.setX(632);
+				if(f.gif.getWidth()>48) {
+					//me e kontrollu me width
+					f.gif.setBounds(f.getX()-48, (int)f.gif.getLocation().getY(), f.gif.getWidth(),f.gif.getHeight());
+				}else {
+			f.gif.setBounds(f.getX(), (int)f.gif.getLocation().getY(), f.gif.getWidth(),f.gif.getHeight());
+				}
 			}else {
-				if(f.getX()+64>628) {
-					f.destroy();
+				if(f.getX()+48>680) {
+//					f.destroy();
+					rez=true;
 				}	
 			}
 			
 		}else if(f.getX()<0) {
 		
-			if(f.getY()<649&&f.getY()>600) {
-				f.setX(0);
-				f.gif.setBounds(0, (int)f.gif.getLocation().getY(),f.gif.getWidth(),f.gif.getHeight());
+			if(f.getY()<649&&f.getY()>300) {
+				f.setX(-8);
+				f.gif.setBounds(-8, (int)f.gif.getLocation().getY(),f.gif.getWidth(),f.gif.getHeight());
 				}else {
-					if(f.getX()-50<0) {
-						f.destroy();
+					if(f.getX()<-9) {
+						//f.destroy();
+						rez=true;
 					}	
 	
-				}
-		
-			
-		}
+				}			
+		}return rez;
 	}
 
 	public void movingObjects(ArrayList<Obstacle[]> a,int r,boolean lr) {
@@ -83,8 +88,8 @@ public class Logic {
 			}
 		}
 	}
-	public boolean goal(Frog f,JLabel[] g) {
-		boolean rez=false;
+	public boolean[] goal(Frog f,JLabel[] g) {
+		boolean[] rez= {false,false};
 		int place=-1;
 		int count =0;
 		for(int i=0;i<5*144;i+=144) {
@@ -95,18 +100,19 @@ public class Logic {
 		}
 		
 		if(f.getY()<73&&count<1) {
-			f.destroy();
+			rez[1]=true;
 		}
 
 		if(place>=0) {
 			if(!g[place].isVisible()) {
 				g[place].setVisible(true);
-				rez=true;
+				rez[0]=true;
 				f.setX(336);
 				f.setY(601);
 				f.gif.setBounds(f.getX(), f.getY(), 96, 96);
-				f.t.restart();
-			}else {
+				
+			}
+			else {
 				f.setY(f.getY()+48);
 				f.gif.setBounds(f.getX(), f.getY(), 96, 96);
 			}

@@ -10,8 +10,11 @@ public class Gui extends JPanel {
 
 	int w = 688;
 	int h = 768;// me e ndreq heigth width
+	public Gui() {
+		
+	}
 
-	public Gui(Frog f,AllObstacles o, ControllKeys k,Timer t,FrogGoal fg) {
+	public Gui(Frog f,AllObstacles o, ControllKeys k,GameDet g) {
 		JLabel bg = new JLabel();
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(this);
@@ -25,10 +28,12 @@ public class Gui extends JPanel {
 		setLayout(null);	
 		bg.setIcon(new ImageIcon("Images\\Bg\\bgnoline.png"));
 		bg.setBounds(0,0,w,h);
-		add(f.fLifes());
+		//add(f.fLifes());
 		add(f.gif);
 		//add(f);
-		add(t);
+		//add(t);
+		add(g.timer());
+		add(g.lifes());
 		for(int i =0;i<o.car().size();i++) {
 
 			for(int j=0;j<o.car().get(i).length;j++) {
@@ -38,7 +43,7 @@ public class Gui extends JPanel {
 		}
 		for(int i =0;i<5;i++) {
 
-			this.add(fg.forgs()[i]);			
+			this.add(g.frogs()[i]);			
 		}
 
 		for(int i =0;i<o.turTree().size();i++) {

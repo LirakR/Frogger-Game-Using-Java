@@ -8,7 +8,7 @@ public class AllObstacles{
 	private String[] carsPic= {"Images\\Cars\\kcarL.png","Images\\Cars\\gcarR.png","Images\\Cars\\zcarL.png","Images\\Cars\\ycarR.png","Images\\Cars\\bcarL.png"};
 	private String[] turTreePic= {"Images\\Wood\\mwood.png","Images\\Turtle\\2turtlesl.png","Images\\Wood\\lwood.png","Images\\\\Wood\\\\swood.png","Images\\Turtle\\3turtlesr.png"};
 	private Random r = new Random();
-	private int[]carsNum={1,3,2,2,3};
+	private int[]carsNum={2,3,2,2,3};
 	private int[]turTreeNum= {2,2,2,2,2};
 	
 	

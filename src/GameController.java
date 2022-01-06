@@ -1,39 +1,37 @@
 import javax.swing.JOptionPane;
 
-public class GameController {
-	
-	
-	
+public class GameController {	
 
 	private Logic logic = new Logic();
 	private AllObstacles o;
 	private Frog f;
-	private FrogGoal fg;
+	private GameDet g;
+	private Gui gui;
 	int	count;
 	int timer;
 	int goal;
-	int gif;
+	//int gif;
 	
-
-	public GameController(AllObstacles obs,Frog frog,FrogGoal fg){
+	public GameController(AllObstacles obs,Frog frog,GameDet gd,Gui gui){
+		this.gui=gui;
 		o=obs;
 		f=frog;
-		this.fg=fg;
+		g=gd;
+	}
+	public void dead() {
+		f.destroy();
+		g.decreaseLife();
+		g.resetTimer();
 	}
 
 	public void run() {
 		while(true) {
 			if(timer%31==0) {
-				f.t.decrease();
-			}
+				g.decreaseTime();
+				}
 			timer++;
-//			if(adasds) {
-//				gif=0;
-//			}
-//			if(gif==10) {
-//				
-//			}
-			//gif++;
+			
+
 			logic.ofScreen(f);
 			
 			logic.movingObjects(o.car(), 0, false);
@@ -42,14 +40,18 @@ public class GameController {
 			logic.movingObjects(o.turTree(),0, false);
 			logic.movingObjects(o.turTree(),1, true);
 			
-			if(logic.goal(f,fg.forgs())) {				
+			if(logic.goal(f,g.frogs())[0]) {				
 				goal++;
-			}			
+			}else if(logic.goal(f,g.frogs())[1]) {
+				dead();
+			}
 			
 		
 			for(int i=0;i<o.car().size();i++) {
 				for(int j=0;j<o.car().get(i).length;j++) {
-					logic.collisionWithCars(f,o.car().get(i)[j]);
+					if(logic.collisionWithCars(f,o.car().get(i)[j])) {
+						dead();
+					}
 				}
 			}
 
@@ -60,32 +62,28 @@ public class GameController {
 						if(logic.moveWithFloats(f,o.turTree().get(i)[j])) {
 							count=1;
 						}
-						else count=2;
 					}
 				}
 				
-				if(count==2) {
-					f.destroy();
+				if(count<1) {
+					dead();
 				}
 			}
 	
 			
-			if(f.t.getWidth()==0) {
-				f.destroy();
+			if(g.timer().getWidth()==0) {
+				dead();
 				}
 			
-			if(f.life<1) {
-				JOptionPane.showMessageDialog(null,"Ju humbet :)");
-				f.reset();
-				fg.resetGoal();
+			if(g.lifes().getX()>650) {
+				JOptionPane.showMessageDialog(gui,"Ju humbet :)");
+				g.restart();
 			}
 			
 			if(goal>4) {
-				JOptionPane.showMessageDialog(null, "You Win!");
-				
-				f.reset();
+				JOptionPane.showMessageDialog(gui, "You Win!");
 				goal=0;
-				fg.resetGoal();
+				g.restart();
 			}
 			
 			
